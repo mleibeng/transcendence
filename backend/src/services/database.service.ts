@@ -11,7 +11,7 @@ export class DatabaseService {
         return this.db;
     }
 
-    async query<T>(sql: string, params: any[] = []): Promise<T[]> {
+    async query<T extends any[]>(sql: string, params: any[] = []): Promise<T[]> {
         const db = await this.getDb();
         return db.all<T>(sql, params);
     }
