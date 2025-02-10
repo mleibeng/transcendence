@@ -1,20 +1,123 @@
 Transcendence 2025:
 
+```mermaid
+graph TB
+    subgraph "Frontend Container"
+        VF[ViteJS Frontend]
+        subgraph "Frontend Structure"
+            Components["Components Directory"]
+            Pages["Pages Directory"]
+            Store["Store (Pinia)"]
+            Router["Vue Router"]
+            Assets["Assets Directory"]
+            Utils["Utils Directory"]
+
+            subgraph "Store Modules"
+                AuthStore["Auth Store"]
+                UserStore["User Store"]
+                GameStore["Game Store"]
+                ChatStore["Chat Store"]
+            end
+
+            subgraph "Component Types"
+                AuthComponents["Auth Components"]
+                GameComponents["Game Components"]
+                UserComponents["User Components"]
+                ChatComponents["Chat Components"]
+                SharedComponents["Shared Components"]
+            end
+        end
+    end
+
+    subgraph "Backend Container"
+        FB["Fastify Backend"]
+        subgraph "Backend Structure"
+            Routes["Routes Directory"]
+            Controllers["Controllers Directory"]
+            Services["Services Directory"]
+            Models["Models Directory"]
+            Middleware["Middleware Directory"]
+            Utils2["Utils Directory"]
+            Config["Config Directory"]
+
+            subgraph "Core Services"
+                AuthService["Auth Service"]
+                UserService["User Service"]
+                GameService["Game Service"]
+                ChatService["Chat Service"]
+                WebSocketService["WebSocket Service"]
+            end
+        end
+
+        DB[(SQLite Database)]
+    end
+
+    subgraph "API Connections"
+        REST["REST API"]
+        WS["WebSocket"]
+    end
+
+    %% Frontend Relationships
+    VF --> Components
+    VF --> Pages
+    VF --> Store
+    VF --> Router
+    Store --> AuthStore
+    Store --> UserStore
+    Store --> GameStore
+    Store --> ChatStore
+    Components --> AuthComponents
+    Components --> GameComponents
+    Components --> UserComponents
+    Components --> ChatComponents
+    Components --> SharedComponents
+
+    %% Backend Relationships
+    FB --> Routes
+    Routes --> Controllers
+    Controllers --> Services
+    Services --> Models
+    Models --> DB
+    FB --> Middleware
+    FB --> WebSocketService
+
+    %% Cross-Container Communications
+    VF <--> REST
+    VF <--> WS
+    REST <--> FB
+    WS <--> WebSocketService
+
+    classDef container fill:#e6f3ff,stroke:#333,stroke-width:2px
+    classDef module fill:#f9f9f9,stroke:#666
+    classDef database fill:#fff5e6,stroke:#333
+    classDef connection fill:#f0f0f0,stroke:#999
+
+    class VF,FB container
+    class Components,Pages,Store,Router,Routes,Controllers,Services,Models,Middleware module
+    class DB database
+    class REST,WS connection
+```
+
 <header>Basic necessary Features:
-    Technologies:
+    <ul>
+        <li>Technologies:</li>
         - Frontend base: Typescript
         - Backend base: ->  refer to web modules
         - Single-Page application
         - Compatible with -> refer to accessibility modules
         - Application must run in: Docker
-    Game State:
+    </ul>
+    <ul>
+    <li>Game State:</li>
         - 2 Player participation mandatory -> refer to Gameplay module for additional info
         - Tournament system must be implemented -> consists of multiple players
         - Registration system is required -> refer to User Management module
         - All players must have the same gameplay rules (Paddle speed etc..)
         - Game must adhere to default frontend constraints -> refer to web for minor adjustment
         - Must replicate Flavor of original Pong 1972
-    Security minimums:
+    </ul>
+    <ul>
+    <li>Security minimums:</li>
         - Any password stored in DB needs to be #hashed#
         - Website must be protected against SQL/XSS attacks
         - Since backend is enabled -> mandatory to enable an HTTPS connection for all aspects
@@ -23,6 +126,7 @@ Transcendence 2025:
             ->   since backend is employed
         - API calls must be secured and routes need to be protected
         - credentials, API keys etc.. need to be stored in local .env file and be ignored by git.
+    </ul>
 </header>
 
 <main>Features planned:

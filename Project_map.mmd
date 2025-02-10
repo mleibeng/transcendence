@@ -1,0 +1,95 @@
+graph TB
+    subgraph "Frontend Container"
+        VF[ViteJS Frontend]
+        subgraph "Frontend Structure"
+            Components["Components Directory"]
+            Pages["Pages Directory"]
+            Store["Store (Pinia)"]
+            Router["Vue Router"]
+            Assets["Assets Directory"]
+            Utils["Utils Directory"]
+
+            subgraph "Store Modules"
+                AuthStore["Auth Store"]
+                UserStore["User Store"]
+                GameStore["Game Store"]
+                ChatStore["Chat Store"]
+            end
+
+            subgraph "Component Types"
+                AuthComponents["Auth Components"]
+                GameComponents["Game Components"]
+                UserComponents["User Components"]
+                ChatComponents["Chat Components"]
+                SharedComponents["Shared Components"]
+            end
+        end
+    end
+
+    subgraph "Backend Container"
+        FB["Fastify Backend"]
+        subgraph "Backend Structure"
+            Routes["Routes Directory"]
+            Controllers["Controllers Directory"]
+            Services["Services Directory"]
+            Models["Models Directory"]
+            Middleware["Middleware Directory"]
+            Utils2["Utils Directory"]
+            Config["Config Directory"]
+
+            subgraph "Core Services"
+                AuthService["Auth Service"]
+                UserService["User Service"]
+                GameService["Game Service"]
+                ChatService["Chat Service"]
+                WebSocketService["WebSocket Service"]
+            end
+        end
+
+        DB[(SQLite Database)]
+    end
+
+    subgraph "API Connections"
+        REST["REST API"]
+        WS["WebSocket"]
+    end
+
+    %% Frontend Relationships
+    VF --> Components
+    VF --> Pages
+    VF --> Store
+    VF --> Router
+    Store --> AuthStore
+    Store --> UserStore
+    Store --> GameStore
+    Store --> ChatStore
+    Components --> AuthComponents
+    Components --> GameComponents
+    Components --> UserComponents
+    Components --> ChatComponents
+    Components --> SharedComponents
+
+    %% Backend Relationships
+    FB --> Routes
+    Routes --> Controllers
+    Controllers --> Services
+    Services --> Models
+    Models --> DB
+    FB --> Middleware
+    FB --> WebSocketService
+
+    %% Cross-Container Communications
+    VF <--> REST
+    VF <--> WS
+    REST <--> FB
+    WS <--> WebSocketService
+
+    classDef container fill:#e6f3ff,stroke:#333,stroke-width:2px
+    classDef module fill:#f9f9f9,stroke:#666
+    classDef database fill:#fff5e6,stroke:#333
+    classDef connection fill:#f0f0f0,stroke:#999
+
+    class VF,FB container
+    class Components,Pages,Store,Router,Routes,Controllers,Services,Models,Middleware module
+    class DB database
+    class REST,WS connection
