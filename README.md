@@ -1,5 +1,7 @@
 Transcendence 2025:
 
+<h1>Project Logic</h1>
+
 ```mermaid
 graph TB
     subgraph "Frontend Container"
@@ -82,6 +84,40 @@ graph TB
     class Components,Pages,Router,Routes,Controllers,Services,Models,Middleware module
     class DB database
     class REST,WS connection
+```
+
+<h1>Game Logic</h1>
+
+```mermaid
+stateDiagram-v2
+    [*] --> GameLobby: User Authenticated
+
+    GameLobby --> MatchMaking: Find Match
+    GameLobby --> DirectChallenge: Challenge Friend
+
+    MatchMaking --> GameRoom: Match Found
+    DirectChallenge --> GameRoom: Challenge Accepted
+
+    state GameRoom {
+        [*] --> Initializing: Both Players Connected
+        Initializing --> Countdown: Game Loading
+        Countdown --> Playing: Game Starts
+        Playing --> Playing: Game State Updates
+        Playing --> GameOver: Score Limit/Disconnect
+        GameOver --> [*]
+    }
+
+    GameRoom --> GameLobby: Play Again/Leave
+
+    state WebSocketStates {
+        state "Client WebSocket" as CWS
+        state "Server WebSocket" as SWS
+
+        CWS --> SWS: Player Input
+        SWS --> CWS: Game State
+        SWS --> CWS: Player 2 Position
+        CWS --> SWS: Player 1 Position
+    }
 ```
 
 <header>Basic necessary Features:
