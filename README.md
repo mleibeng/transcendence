@@ -7,17 +7,8 @@ graph TB
         subgraph "Frontend Structure"
             Components["Components Directory"]
             Pages["Pages Directory"]
-            Store["Store (Pinia)"]
-            Router["Vue Router"]
             Assets["Assets Directory"]
             Utils["Utils Directory"]
-
-            subgraph "Store Modules"
-                AuthStore["Auth Store"]
-                UserStore["User Store"]
-                GameStore["Game Store"]
-                ChatStore["Chat Store"]
-            end
 
             subgraph "Component Types"
                 AuthComponents["Auth Components"]
@@ -60,12 +51,7 @@ graph TB
     %% Frontend Relationships
     VF --> Components
     VF --> Pages
-    VF --> Store
     VF --> Router
-    Store --> AuthStore
-    Store --> UserStore
-    Store --> GameStore
-    Store --> ChatStore
     Components --> AuthComponents
     Components --> GameComponents
     Components --> UserComponents
@@ -93,7 +79,7 @@ graph TB
     classDef connection fill:#f0f0f0,stroke:#999
 
     class VF,FB container
-    class Components,Pages,Store,Router,Routes,Controllers,Services,Models,Middleware module
+    class Components,Pages,Router,Routes,Controllers,Services,Models,Middleware module
     class DB database
     class REST,WS connection
 ```
