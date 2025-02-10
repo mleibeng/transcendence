@@ -120,6 +120,35 @@ stateDiagram-v2
     }
 ```
 
+<h1>Tournament Logic</h1>
+
+```mermaid
+stateDiagram-v2
+    [*] --> Registration: Tournament Created
+    Registration --> WaitingForPlayers: Players Join
+
+    state TournamentStates {
+        WaitingForPlayers --> BracketGeneration: Min Players Reached
+        WaitingForPlayers --> Failed: Timeout/Not Enough Players
+
+        BracketGeneration --> RoundInProgress: Matches Created
+
+        state RoundInProgress {
+            [*] --> MatchesOngoing
+            MatchesOngoing --> AllMatchesComplete
+            AllMatchesComplete --> [*]
+        }
+
+        RoundInProgress --> NextRound: Round Complete
+        RoundInProgress --> TournamentComplete: Final Round Complete
+
+        NextRound --> RoundInProgress: Start Next Round
+    }
+
+    TournamentComplete --> [*]: Winner Determined
+    Failed --> [*]: Tournament Cancelled
+```
+
 <header>Basic necessary Features:
     <ul>
         <li>Technologies:</li>
