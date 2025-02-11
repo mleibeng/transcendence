@@ -9,6 +9,8 @@ RUN mkdir -p data
 
 COPY --chown=node:node package*.json ./
 
+COPY .env .env
+
 RUN npm install
 
 COPY --chown=node:node . .
