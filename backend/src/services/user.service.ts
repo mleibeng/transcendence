@@ -36,4 +36,17 @@ export class UserService {
     async updateUser(user: UserModel) {
         return await this.userRepo.save(user)
     }
+
+    async removeUser(userData: RegisterCredentials) {
+        const existingUser =  await this.userRepo.findOne({
+            where: [
+                {email: userData.email},
+                {username: userData.username}
+            ]
+        })
+
+        if (existingUser) {
+            return await this.userRepo.delete(existingUser)
+        }
+    }
 }
