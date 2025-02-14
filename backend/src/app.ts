@@ -1,6 +1,7 @@
 import fastify from "fastify";
 import { initDataSource } from "./data-source";
 import authRoutes from "./routes/auth";
+import fastifyCookie from '@fastify/cookie'
 
 const requiredEnvVars = ['JWT_SECRET', 'REFRESH_TOKEN_SECRET'];
 for (const envVar of requiredEnvVars) {
@@ -11,6 +12,17 @@ for (const envVar of requiredEnvVars) {
 }
 
 const app = fastify();
+
+app.register(fastifyCookie, { // fastifyCookie is new have to check the interface
+    secret: process.env.COOKIE_SECRET,
+    hook: 'onRequest',
+    parseOptions: {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'strict'
+    }
+})
+
 
 initDataSource().then(() => {
     app.register(authRoutes)

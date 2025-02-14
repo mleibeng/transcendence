@@ -3,7 +3,7 @@ import { verifyJWT } from "../utils/security";
 
 export async function authenticateJWT(request: FastifyRequest, reply: FastifyReply) {
     try {
-        const token = request.headers.authorization?.split(' ')[1];
+        const token = request.cookies.accessToken;
         if (!token)
             return reply.code(401).send({error: 'No authentication token provided'})
 

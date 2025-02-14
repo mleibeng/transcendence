@@ -30,7 +30,6 @@ import { FastifyInstance } from "fastify";
 import { AuthController } from "../controllers/auth.controller";
 import { UserService } from "../services/user.service";
 import { AuthService } from "../services/auth.service";
-import { authenticateJWT } from "../middleware/auth.middleware";
 
 export default async function authRoutes(fastify: FastifyInstance) {
     const userService = new UserService();
@@ -39,11 +38,15 @@ export default async function authRoutes(fastify: FastifyInstance) {
 
     fastify.post('/register', authController.register.bind(authController))
     fastify.post('/login', authController.login.bind(authController))
-
-    fastify.get('/profile', {preHandler: authenticateJWT, handler: async (request, reply) => {
-        if (!request.user) {
-            return reply.code(401).send({error: 'Not authorized'});
-        }
-        reply.send({user: request.user})
-    }})
 }
+
+
+
+    // fastify.register(async (fastify) => { --> THIS IS ALL USER CONTROLLER STUFF!!!
+    //     fastify.addHook('preHandler', authenticateJWT);
+
+    //     fastify.get('/profile', authController.getProfile.bind(authController))
+    //     fastify.put('/profile/update', authController.updateProfile.bind(authController))
+
+    //     fastify.get('/game', authController.getGame.bind(authController)) --> Game Route so for GAME CONTROLLER STUFF
+    // })
