@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   app.ts                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/15 17:10:19 by mleibeng          #+#    #+#             */
+/*   Updated: 2025/02/15 17:10:21 by mleibeng         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 import fastify from "fastify";
 import { initDataSource } from "./data-source";
 import authRoutes from "./routes/auth";

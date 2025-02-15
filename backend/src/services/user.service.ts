@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   user.service.ts                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/15 17:09:48 by mleibeng          #+#    #+#             */
+/*   Updated: 2025/02/15 17:09:48 by mleibeng         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 import { AppDataSource } from "../data-source";
 import { RegisterCredentials } from "../types/auth.types";
 import { UserModel } from '../types/user.types'

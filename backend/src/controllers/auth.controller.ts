@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   auth.controller.ts                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/15 17:08:59 by mleibeng          #+#    #+#             */
+/*   Updated: 2025/02/15 18:32:16 by mleibeng         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 // Receive request from routes
 // handle request/response logic
 // input validation
@@ -74,7 +86,7 @@ export class AuthController {
     async logout(request: FastifyRequest, reply: FastifyReply) {
         reply.clearCookie('accessToken', {path: '/'})
         reply.clearCookie('refreshToken', {path: '/api/auth/refresh'})
-        reply.code(200).send('Logout successfull')
+        reply.code(200).send('Logout successful')
     }
 
 }

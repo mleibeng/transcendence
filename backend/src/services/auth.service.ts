@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   auth.service.ts                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/15 17:09:40 by mleibeng          #+#    #+#             */
+/*   Updated: 2025/02/15 18:31:53 by mleibeng         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 // Contains business logic
 // handle complex operations
 // example: async function login(email, password) {
@@ -48,7 +60,6 @@ export class AuthService {
     }
 
     private generateRefreshToken(userId: number): string {
-
         const secret = process.env.REFRESH_TOKEN_SECRET
         if (!secret) {
             throw new Error('REFRESH_TOKEN_SECRET not set')

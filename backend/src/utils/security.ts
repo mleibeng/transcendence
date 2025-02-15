@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   security.ts                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/15 17:10:15 by mleibeng          #+#    #+#             */
+/*   Updated: 2025/02/15 17:10:16 by mleibeng         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { JWTPayload } from '../types/auth.types';

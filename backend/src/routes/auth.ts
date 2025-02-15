@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   auth.ts                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/15 17:09:29 by mleibeng          #+#    #+#             */
+/*   Updated: 2025/02/15 18:31:14 by mleibeng         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 // Define API endpoints
 // Handle HTTP requests
 // Example: POST /api/auth/login
@@ -38,15 +50,5 @@ export default async function authRoutes(fastify: FastifyInstance) {
 
     fastify.post('/register', authController.register.bind(authController))
     fastify.post('/login', authController.login.bind(authController))
+    // 2FA authentication / registration missing
 }
-
-
-
-    // fastify.register(async (fastify) => { --> THIS IS ALL USER CONTROLLER STUFF!!!
-    //     fastify.addHook('preHandler', authenticateJWT);
-
-    //     fastify.get('/profile', authController.getProfile.bind(authController))
-    //     fastify.put('/profile/update', authController.updateProfile.bind(authController))
-
-    //     fastify.get('/game', authController.getGame.bind(authController)) --> Game Route so for GAME CONTROLLER STUFF
-    // })

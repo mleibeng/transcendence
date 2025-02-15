@@ -1,6 +1,11 @@
-// Define Database schemas
-// handle database operations
-// example:
-// async function findemail(email) {
-// return db.query('SELECT * FROM users WHERE email = ?', [email]) -> hand back to services
-// }
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   user.model.ts                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/15 17:09:26 by mleibeng          #+#    #+#             */
+/*   Updated: 2025/02/15 17:43:39 by mleibeng         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
