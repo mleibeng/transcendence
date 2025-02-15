@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   auth.ts                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:09:29 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/15 18:31:14 by mleibeng         ###   ########.fr       */
+/*   Updated: 2025/02/15 20:21:35 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ import { FastifyInstance } from "fastify";
 import { AuthController } from "../controllers/auth.controller";
 import { UserService } from "../services/user.service";
 import { AuthService } from "../services/auth.service";
+import { authenticateJWT } from "../middleware/auth.middleware";
 
 export default async function authRoutes(fastify: FastifyInstance) {
     const userService = new UserService();
@@ -50,5 +51,35 @@ export default async function authRoutes(fastify: FastifyInstance) {
 
     fastify.post('/register', authController.register.bind(authController))
     fastify.post('/login', authController.login.bind(authController))
-    // 2FA authentication / registration missing
+    fastify.post('/logout', authController.logout.bind(authController))
+
+    fastify.post('/2fa/setup', {
+        preHandler: [authenticateJWT],
+    }, authController.setup2FA.bind(authController));
+
+    fastify.post<{ Body: { token: string } }>('/2fa/enable', {
+        preHandler: [authenticateJWT],
+        schema: {
+            body: {
+                type: 'object',
+                required: ['token'],
+                properties: {
+                    token: { type: 'string' }
+                }
+            }
+        }
+    }, authController.enable2FA.bind(authController));
+
+    fastify.post<{ Body: { tempToken: string, token: string } }>('/2fa/verify', {
+        schema: {
+            body: {
+                type: 'object',
+                required: ['tempToken', 'token'],
+                properties: {
+                    tempToken: { type: 'string' },
+                    token: { type: 'string' }
+                }
+            }
+        }
+    }, authController.verify2FA.bind(authController));
 }

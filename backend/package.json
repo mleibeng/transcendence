@@ -7,6 +7,7 @@
         "start": "node dist/server.js"
     },
     "dependencies": {
+        "@fastify/auth": "^5.0.2",
         "@fastify/cookie": "^11.0.2",
         "@fastify/cors": "^10.0.2",
         "@fastify/jwt": "^9.0.3",
@@ -17,6 +18,8 @@
         "fastify": "^5.2.1",
         "fastify-plugin": "^5.0.1",
         "jsonwebtoken": "^9.0.2",
+        "qrcode": "^1.5.4",
+        "speakeasy": "^2.0.0",
         "sqlite": "^5.1.1",
         "sqlite3": "^5.1.7",
         "typeorm": "^0.3.20"
@@ -24,6 +27,8 @@
     "devDependencies": {
         "@types/bcrypt": "^5.0.2",
         "@types/jsonwebtoken": "^9.0.8",
+        "@types/qrcode": "^1.5.5",
+        "@types/speakeasy": "^2.0.10",
         "ts-node-dev": "^2.0.0",
         "typescript": "^5.7.3"
     }

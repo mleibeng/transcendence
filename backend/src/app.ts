@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:10:19 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/15 17:10:21 by mleibeng         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:53:49 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ app.register(fastifyCookie, { // fastifyCookie is new have to check the interfac
         sameSite: 'strict'
     }
 })
-
 
 initDataSource().then(() => {
     app.register(authRoutes)

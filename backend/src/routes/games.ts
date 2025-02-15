@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:09:32 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/15 18:30:40 by mleibeng         ###   ########.fr       */
+/*   Updated: 2025/02/15 19:06:05 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ import { authenticateJWT } from "../middleware/auth.middleware";
 // 4. Update scores if needed
 // 5. Broadcast new state to both players
 
-
 export default async function gameController(fastify: FastifyInstance) {
 
     const gameService = new GameService();
@@ -37,8 +36,8 @@ export default async function gameController(fastify: FastifyInstance) {
         fastify.addHook('preHandler', authenticateJWT)
 
         fastify.get('/game', gameController.createGameLobby.bind(gameController))
-        fastify.post('/game/invite', gameController.challengeFriend.bind(gameController))
-        fastify.post('/game/matchmake', gameController.challengeFriend.bind(gameController))
+        fastify.post('/game/invite', gameController.challengeFriend.bind(gameController)) //maybe only put
+        fastify.post('/game/matchmake', gameController.matchmakeGame.bind(gameController))
         fastify.post('/game/playAgain', gameController.playAgain.bind(gameController))
     })
 

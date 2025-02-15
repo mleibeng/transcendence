@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user.service.ts                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
+/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:09:48 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/15 17:09:48 by mleibeng         ###   ########.fr       */
+/*   Updated: 2025/02/15 20:16:06 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ export class UserService {
 
     }
 
-    async findEmailAcc(email:string) {
+    async findEmailAcc(email: string) {
         return await this.userRepo.findOne({
-            where: {email},
-            select: ['id', 'email', 'password', 'role']
-        })
+            where: { email },
+            select: ['id', 'email', 'password', 'role', 'twoFAEnabled', 'twoFASecret']
+        });
     }
 
     async findId(id:number) {
@@ -59,6 +59,33 @@ export class UserService {
 
         if (existingUser) {
             return await this.userRepo.delete(existingUser)
+        }
+    }
+
+    async update2FASecret(userId: number, secret: string): Promise<UserModel> {
+        await this.userRepo.update(userId, { twoFASecret: secret });
+        const user = await this.userRepo.findOneBy({ id: userId });
+        if (!user) throw new Error("User not found");
+        return user;
+    }
+
+    async update2FAEnabled(userId: number, enabled: boolean): Promise<UserModel> {
+        await this.userRepo.update(userId, { twoFAEnabled: enabled });
+        const user = await this.userRepo.findOneBy({ id: userId });
+        if (!user) throw new Error("User not found");
+        return user;
+    }
+
+    async updateRefreshToken(userId: number, refreshToken: string | null): Promise<void> {
+        if (refreshToken === null) {
+            await this.userRepo
+                .createQueryBuilder()
+                .update(UserModel)
+                .set({ refreshToken: () => 'NULL' })
+                .where('id = :id', { id: userId })
+                .execute();
+        } else {
+            await this.userRepo.update(userId, { refreshToken });
         }
     }
 }

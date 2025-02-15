@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:09:04 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/15 18:22:59 by mleibeng         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:52:03 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ export class TournamentController {
 
     } // also needs to create code to instance for invites -> hand to user controller -> reflect function in userController to accept/send to more players for invitation
 
-    // needs access management for admin player that created the instance for kicking/inviting more players, giving other players admin rights for the instance etc...
+    async playerStateManagement() {
 
+    } // -> needs access management for admin player that created the lobby for kicking/inviting more players, giving other players admin rights for the instance etc...
 
     async updateTournamentResults() {
 
