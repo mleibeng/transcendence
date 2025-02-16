@@ -7,7 +7,14 @@
         "JWT_SECRET": "TESTING",
         "REFRESH_TOKEN_SECRET": "FRESH_TESTING"
     },
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm"
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"bradlc.vscode-tailwindcss"
+			]
+		}
+	}
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
