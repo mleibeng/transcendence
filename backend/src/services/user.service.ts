@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   user.service.ts                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:09:48 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/15 20:16:06 by node             ###   ########.fr       */
+/*   Updated: 2025/02/16 07:40:22 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 import { AppDataSource } from "../data-source";
 import { RegisterCredentials } from "../types/auth.types";
-import { UserModel } from '../types/user.types'
+import { UserModel } from '../models/user.model'
 
 export class UserService {
     private userRepo = AppDataSource.getRepository(UserModel)

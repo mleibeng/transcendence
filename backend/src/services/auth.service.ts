@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   auth.service.ts                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:09:40 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/15 20:11:16 by node             ###   ########.fr       */
+/*   Updated: 2025/02/16 07:40:22 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // otherwise return correct user }
 
 import { UserCredentials, RegisterCredentials, JWTPayload, AuthTokens, TwoFactorInfo } from "../types/auth.types";
-import { UserModel } from "../types/user.types";
+import { UserModel } from "../models/user.model";
 import { hashPW, verifyPW, generateJWT } from "../utils/security";
 import { UserService } from "./user.service";
 import speakeasy, { otpauthURL } from 'speakeasy'

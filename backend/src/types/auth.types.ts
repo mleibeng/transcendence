@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   auth.types.ts                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:09:53 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/15 20:00:56 by node             ###   ########.fr       */
+/*   Updated: 2025/02/16 07:38:32 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,6 @@ export interface TwoFactorInfo {
     secret: string
     otpauthUrl: string
     qrCodeUrl: string
-}
-
-export interface VerifyTwoFactor {
-    email:string
-    token:string
 }
 
 export interface JWTPayload {

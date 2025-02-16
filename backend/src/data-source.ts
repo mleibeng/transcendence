@@ -6,12 +6,12 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:10:21 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/15 17:10:22 by mleibeng         ###   ########.fr       */
+/*   Updated: 2025/02/16 07:40:22 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 import { DataSource } from "typeorm";
-import { UserModel } from "./types/user.types";
+import { UserModel } from "./models/user.model";
 
 export const AppDataSource = new DataSource ({
     type: "sqlite",
