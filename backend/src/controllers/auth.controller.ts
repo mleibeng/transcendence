@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:08:59 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/15 21:22:49 by mleibeng         ###   ########.fr       */
+/*   Updated: 2025/02/17 00:05:33 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ export class AuthController {
         this.authService = authService
     }
 
+    // maybe I should just hand out accessTokens once they actually log in...
     async register(request: FastifyRequest<{ Body: RegisterCredentials }>, reply: FastifyReply) {
         try {
+            console.log("What's happening")
             const tokens = await this.authService.register(request.body);
-            reply.setCookie('accessToken', tokens.accessToken, { // This is maybe redundant because I have already set the cookie options inside my app.register!! need to check to make sure!
+            reply.setCookie('accessToken', tokens.accessToken, {
                 httpOnly: true,
-                secure: true,
+                secure: process.env.NODE_ENV === 'production',
                 sameSite: 'strict',
                 path: '/',
                 maxAge: 15 * 60 * 1000
@@ -42,7 +44,7 @@ export class AuthController {
 
             reply.setCookie('refreshTokane', tokens.refreshToken, {
                 httpOnly: true,
-                secure: true,
+                secure: process.env.NODE_ENV === 'production',
                 sameSite: 'strict',
                 path: '/api/auth/refresh', //route not yet created!!!
                 maxAge: 7 * 24 * 60 * 60 * 1000
@@ -64,19 +66,19 @@ export class AuthController {
             if ('requiresTwoFactor' in result) {
                 reply.code(200).send({
                     requiresTwoFactor: true,
-                    tempToken: result.tempToken
+                    tempToken: result.tempToken // -> send info back to frontend for requesting 2FA. -> Should maybe redirect to 2FA page / blocking pop up -> will need to send another request to verify2FA
                 });
             } else {
                 reply.setCookie('accessToken', result.accessToken, {
                     httpOnly: true,
-                    secure: true,
+                    secure: process.env.NODE_ENV === 'production',
                     sameSite: 'strict',
                     path: '/',
                     maxAge: 15 * 60 * 1000
                     });
                 reply.setCookie('refreshToken', result.refreshToken,  {
                     httpOnly: true,
-                    secure: true,
+                    secure: process.env.NODE_ENV === 'production',
                     sameSite: 'strict',
                     path: '/api/auth/refresh',
                     maxAge: 7 * 24 * 60 * 60 * 1000
@@ -97,7 +99,6 @@ export class AuthController {
         const userIdNumber = parseInt(userId, 10);
 
         try {
-            const userId = request.user?.userID;
             const secret = await this.authService.generate2FASecret(userIdNumber);
             reply.code(200).send(secret);
         } catch (error) {

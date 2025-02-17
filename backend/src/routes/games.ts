@@ -35,7 +35,7 @@ export default async function gameController(fastify: FastifyInstance) {
     fastify.register(async (fastify) => {
         fastify.addHook('preHandler', authenticateJWT)
 
-        fastify.get('/game', gameController.createGameLobby.bind(gameController))
+        fastify.get('/game', gameController.createGameLobby.bind(gameController)) // -> all in wss
         fastify.post('/game/invite', gameController.challengeFriend.bind(gameController)) //maybe only put
         fastify.post('/game/matchmake', gameController.matchmakeGame.bind(gameController))
         fastify.post('/game/playAgain', gameController.playAgain.bind(gameController))

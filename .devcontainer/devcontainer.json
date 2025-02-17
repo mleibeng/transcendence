@@ -5,7 +5,8 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"remoteEnv": {
         "JWT_SECRET": "TESTING",
-        "REFRESH_TOKEN_SECRET": "FRESH_TESTING"
+        "REFRESH_TOKEN_SECRET": "FRESH_TESTING",
+		"FRONTEND_URL": "http://localhost:5173"
     },
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
 	"customizations": {

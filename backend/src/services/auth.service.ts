@@ -6,7 +6,7 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:09:40 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/16 07:40:22 by mleibeng         ###   ########.fr       */
+/*   Updated: 2025/02/17 00:05:50 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ export class AuthService {
     }
 
     async register(credentials:RegisterCredentials): Promise<AuthTokens> {
+        console.log("What's happening service??")
         const hashedPW = await hashPW(credentials.password)
         const user = await this.userService.createUser({
             ...credentials,

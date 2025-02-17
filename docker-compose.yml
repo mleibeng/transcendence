@@ -7,10 +7,14 @@ services:
       dockerfile: ../docker/Dockerfile.backend
     ports:
       - "3000:3000"
+    hostname: backend
     environment:
       - NODE_ENV=development
     user: "node"
     command: npm run dev
+    volumes:
+      - ./backend/certs:/home/node/app/src/certs
+      - ./.env:/home/node/app/.env
     networks:
       - transcendent-net
 
@@ -22,13 +26,14 @@ services:
       - "5173:5173"
     environment:
       - NODE_ENV=development
-      - VITE_API_URL=http://backend:3000
+      - VITE_API_URL=http://localhost:3000
     user: "node"
     depends_on:
       - backend
     command: npm run dev -- --host
     networks:
       - transcendent-net
+
 volumes:
   db-data:
     driver: local

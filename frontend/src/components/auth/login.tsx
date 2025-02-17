@@ -12,47 +12,57 @@
 
 import React, { useState } from 'react';
 import '@styles/style.css'
+import FormInput from '../shared/form_input';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // -> call api backend for login verification
-    console.log('Login Submitted', { email }, 'password');
+    try {
+        const response = await fetch('http://localhost:3000/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify({ email, password}),
+        credentials: 'include'
+        })
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+
+        const data = await response.json()
+        console.log(data)
+        alert('Login successful')
+      } catch (error) {
+        console.error('login fail', error)
+        alert('login fail')
+    }
   };
 
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit} className="form">
         <h2 className="form-title">Login</h2>
-        <div>
-          <label className="form-label" htmlFor="email">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="form-input"
-            required
-          />
-        </div>
-        <div>
-          <label className="form-label" htmlFor="password">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="form-input"
-            required
-          />
-        </div>
+        <FormInput
+          label='Email'
+          type='email'
+          id='email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <FormInput
+          label='Password'
+          type='password'
+          id='password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
         <button type="submit" className="form-button">
           Login
         </button>
