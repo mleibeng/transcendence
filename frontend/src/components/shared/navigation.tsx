@@ -11,22 +11,30 @@
 /* ************************************************************************** */
 
 import React from 'react';
-import { Link } from 'react-router-dom'; // will replace with states
-import '@styles/style.css'
+import { Link } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        <Link to="/" className="navbar-brand">
+    <nav className="bg-blue-600 p-4">
+      <div className="container mx-auto flex justify-between items-center">
+        <Link to="/" className="text-white text-xl font-bold no-underline">
           Pong Game 2025
         </Link>
         <div>
-          <Link to="/login" className="navbar-link">
+          <Link to="/login" className="text-white px-4 py-2 rounded-md text-sm font-medium no-underline hover:bg-blue-700">
             Login
           </Link>
-          <Link to="/register" className="navbar-link">
+          <Link to="/register" className="text-white px-4 py-2 rounded-md text-sm font-medium no-underline hover:bg-blue-700">
             Register
+          </Link>
+          <Link to="/profile" className="text-white px-4 py-2 rounded-md text-sm font-medium no-underline hover:bg-blue-700">
+            Profile
+          </Link>
+          <Link to="/profile/statistics" className="text-white px-4 py-2 rounded-md text-sm font-medium no-underline hover:bg-blue-700">
+            Stats
+          </Link>
+          <Link to="/tournament" className="text-white px-4 py-2 rounded-md text-sm font-medium no-underline hover:bg-blue-700">
+            Tournament
           </Link>
         </div>
       </div>

@@ -89,10 +89,10 @@ export class Paddle {
                 this.targetY = null;
             }
             else if (this.y < this.targetY) {
-                this.y += 5
+                this.y += this.speed
             }
             else {
-                this.y -= 5
+                this.y -= this.speed
             }
         } else {
             this.y += this.speed;

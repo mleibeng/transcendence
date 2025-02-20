@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 import React, { useState } from 'react';
-import '@styles/style.css'
 import FormInput from '../shared/form_input';
 
 const Login: React.FC = () => {
@@ -21,49 +20,49 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-        const response = await fetch('http://localhost:3000/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        body: JSON.stringify({ email, password}),
-        credentials: 'include'
-        })
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
+      });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`)
-        }
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
-        const data = await response.json()
-        console.log(data)
-        alert('Login successful')
-      } catch (error) {
-        console.error('login fail', error)
-        alert('login fail')
+      const data = await response.json();
+      console.log(data);
+      alert('Login successful');
+    } catch (error) {
+      console.error('Login failed', error);
+      alert('Login failed');
     }
   };
 
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit} className="form">
-        <h2 className="form-title">Login</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-80">
+        <h2 className="text-2xl mb-4 text-center">Login</h2>
         <FormInput
-          label='Email'
-          type='email'
-          id='email'
+          label="Email"
+          type="email"
+          id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
         <FormInput
-          label='Password'
-          type='password'
-          id='password'
+          label="Password"
+          type="password"
+          id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit" className="form-button">
+        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-md font-medium hover:bg-blue-700">
           Login
         </button>
       </form>

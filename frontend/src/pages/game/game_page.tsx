@@ -14,63 +14,75 @@ import React, { useEffect, useRef } from "react";
 import PongGame from "../../components/game/canvas";
 
 interface PongProps {
-    width?: number;
-    height?: number;
+  width?: number;
+  height?: number;
 }
 
-const PongCanvas: React.FC<PongProps> = ({
-    width = 800,
-    height = 600
-}) => {
-    const gameRef = useRef<PongGame | null> (null);
-    const containerRef = useRef<HTMLDivElement>(null);
+const PongCanvas: React.FC<PongProps> = ({ width = 800, height = 600 }) => {
+  const gameRef = useRef<PongGame | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    useEffect(() => {
-        if (!gameRef.current && containerRef.current) {
-            try {
-                const canvas = document.getElementById('Ponggame') as HTMLCanvasElement
-                if(!canvas) {
-                    throw new Error("couldn't init canvas")
-                }
-                gameRef.current = new PongGame();
+  useEffect(() => {
+    if (containerRef.current && canvasRef.current && !gameRef.current) {
+      try {
+        gameRef.current = new PongGame();
 
-                const handleResize = () => {
-                    if (containerRef.current && gameRef.current) {
-                        const containerHeight = containerRef.current.clientHeight
-                        const containerWidth = containerRef.current.clientWidth
-                        gameRef.current.resize(containerWidth,containerHeight);
-                    }
-                }
-                window.addEventListener('resize', handleResize);
-                handleResize();
+        const handleResize = () => {
+          if (!containerRef.current || !gameRef.current || !canvasRef.current) return;
 
-                gameRef.current.start()
+          const containerWidth = containerRef.current.clientWidth;
+          const containerHeight = containerRef.current.clientHeight;
 
-                return () => {
-                    window.removeEventListener('resize', handleResize)
-                    if (gameRef.current) {
-                        gameRef.current.clean()
-                        gameRef.current = null
-                    }
-                }
-            }
-            catch (error) {
-                console.error('couldnt start game', error)
-            }
-        }
-    }, [])
+          let gameWidth, gameHeight;
 
-    return (
-        <div className="PongContainer"
-        ref={containerRef}
-        >
-            <canvas
-            id="Ponggame"
-            width={width}
-            height={height}
-              />
-        </div>
-    )
-}
+          if (containerWidth / containerHeight > 4 / 3) {
+            gameHeight = containerHeight;
+            gameWidth = containerHeight * (4 / 3);
+          } else {
+            gameWidth = containerWidth;
+            gameHeight = containerWidth * (3 / 4);
+          }
 
-export default PongCanvas
+          canvasRef.current.width = gameWidth;
+          canvasRef.current.height = gameHeight;
+
+          canvasRef.current.style.width = `${gameWidth}px`;
+          canvasRef.current.style.height = `${gameHeight}px`;
+
+          gameRef.current.resize(gameWidth, gameHeight);
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+
+        gameRef.current.render(false)
+
+        return () => {
+          window.removeEventListener('resize', handleResize);
+          if (gameRef.current) {
+            gameRef.current.clean();
+            gameRef.current = null;
+          }
+        };
+      } catch (error) {
+        console.error('Could not start game', error);
+      }
+    }
+  }, []);
+
+  return (
+    <div className="w-full h-full max-w-[800px] max-h-[600px] aspect-[4/3] relative mx-auto" ref={containerRef}>
+      <canvas
+        id="Ponggame"
+        className="w-full h-full bg-black"
+        ref={canvasRef}
+        width={width}
+        height={height}
+      />
+    </div>
+  );
+};
+
+export default PongCanvas;

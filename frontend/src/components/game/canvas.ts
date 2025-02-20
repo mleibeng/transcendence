@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   canvas.tsx                                         :+:      :+:    :+:   */
+/*   canvas.ts                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:11:30 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/20 02:16:38 by mleibeng         ###   ########.fr       */
+/*   Updated: 2025/02/20 03:19:13 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ class PongGame {
     private score1: number = 0;
     private score2: number = 0;
     private isRunning: boolean = false;
+    private animationId: number | null = null;
+    private countdown: number | null = null
+    private countdownInterval: number | null = null
+    private startGame: boolean = true
+    private hitCD: number = 0;
+
 
     constructor() {
         this.canvas = document.getElementById("Ponggame") as HTMLCanvasElement;
@@ -36,7 +42,7 @@ class PongGame {
         const centerX = this.canvas.width / 2;
         const centerY = this.canvas.height / 2;
 
-        this.ball = new Ball(centerX, centerY, 8, 'white', 2, 2)
+        this.ball = new Ball(centerX, centerY, 8, 'white', 4, 4)
 
         const paddleHeight = 100;
         const paddleWidth = 10;
@@ -44,15 +50,8 @@ class PongGame {
         this.paddle1 = new Paddle(10, centerY - paddleHeight/2, paddleWidth, paddleHeight, 'red')
         this.paddle2 = new Paddle(this.canvas.width - paddleWidth - 10, centerY - paddleHeight/2, paddleWidth, paddleHeight, 'blue')
 
-        this.init()
-    }
-
-    private init(): void {
         this.setupEventListeners()
-        this.isRunning = true;
-        this.gameLoop()
     }
-
 
     private setupEventListeners(): void {
         window.addEventListener('keyup', (ev) => this.keyUpFunction(ev))
@@ -62,8 +61,53 @@ class PongGame {
         this.canvas.addEventListener('touchmove', (ev) => this.touchMoveFunction(ev))
     }
 
+    private startCountdown():void {
+        this.countdown = 4;
+        this.countdownInterval = window.setInterval(() => {
+            this.countdown! -= 1;
+            if (this.countdown! <= 0) {
+                if (this.countdownInterval) {
+                    clearInterval(this.countdownInterval);
+                    this.countdownInterval = null;
+                }
+                this.start()
+            }
+            this.render(false)
+        }, 1000)
+    }
+
+    private renderCountdown():void {
+        if (this.countdown !== null && this.countdown > 0) {
+            this.ctx.fillStyle = 'white';
+            this.ctx.font = '80px monospace';
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillText(
+                this.countdown.toString(),
+                this.canvas.width / 2,
+                this.canvas.height / 2
+            );
+        }
+    }
+
+    private toggleGame(): void {
+        this.isRunning = !this.isRunning
+        if (this.isRunning && this.startGame) {
+            this.startGame = false;
+            this.startCountdown()
+        } else if (this.isRunning && !this.startGame) {
+            this.start()
+        }
+         else {
+            this.stop()
+        }
+    }
+
     private keyUpFunction(ev: KeyboardEvent) {
         switch (ev.key) {
+            case ' ':
+                this.toggleGame();
+                break;
             case 's':
             case 'w':
                 this.paddle1.stop();
@@ -78,16 +122,16 @@ class PongGame {
     private keyDownFunction(ev: KeyboardEvent) {
         switch (ev.key) {
             case 'w':
-                this.paddle1.moveUp(5);
+                this.paddle1.moveUp(10);
                 break;
             case 's':
-                this.paddle1.moveDown(5);
+                this.paddle1.moveDown(10);
                 break;
             case 'ArrowDown':
-                this.paddle2.moveDown(5);
+                this.paddle2.moveDown(10);
                 break;
             case 'ArrowUp':
-                this.paddle2.moveUp(5);
+                this.paddle2.moveUp(10);
                 break;
         }
     }
@@ -122,12 +166,15 @@ class PongGame {
 
 
     private gameLoop = (): void => {
+        if (!this.isRunning) return;
+
         this.update()
+        this.render(true)
 
-        this.render()
 
-        if(this.isRunning)
-        requestAnimationFrame(this.gameLoop)
+        this.animationId = requestAnimationFrame(this.gameLoop)
+
+        this.winGame()
     }
 
     private update(): void {
@@ -139,16 +186,30 @@ class PongGame {
         if (this.ball.y <= this.ball.radius || this.ball.y >= this.canvas.height - this.ball.radius)
             this.ball.reverseYDirection();
 
-        if (this.isColliding(this.ball, this.paddle1) || this.isColliding(this.ball, this.paddle2)) {
-            this.ball.reverseXDirection();
-            Math.abs(this.ball.speedX += 1)
-            Math.abs(this.ball.speedY += 1)
-        }
+        if (this.hitCD <= 0)
+        {
+            if (this.isColliding(this.ball, this.paddle1)) {
+                this.hitCD = 10;
+                this.ball.reverseXDirection();
+                Math.abs(this.ball.speedX += Math.random())
+                Math.abs(this.ball.speedY += Math.random())
+            }
 
-        if (this.ball.x < 0) {
+            if (this.isColliding(this.ball, this.paddle2)) {
+                this.hitCD = 10;
+                this.ball.reverseXDirection();
+                Math.abs(this.ball.speedX -= Math.random())
+                Math.abs(this.ball.speedY -= Math.random())
+
+            }
+        } else
+            this.hitCD--;
+
+
+        if (this.ball.x < 15) {
             this.score2 += 1;
             this.resetBall();
-        } else if (this.ball.x > this.canvas.width) {
+        } else if (this.ball.x > this.canvas.width - 15) {
             this.score1 += 1;
             this.resetBall()
         }
@@ -157,20 +218,25 @@ class PongGame {
     private resetBall(): void {
         this.ball.x = this.canvas.width / 2;
         this.ball.y = this.canvas.height / 2;
-        this.ball.reverseXDirection();
-        this.ball.speedX = 2
-        this.ball.speedY = 2
+        this.ball.speedX = 4
+        this.ball.speedY = 4 + Math.random()
+        if (Math.random() > 0.5)
+            this.ball.reverseXDirection();
+        if (Math.random() > 0.5)
+            this.ball.reverseYDirection();
     }
 
-    private render(): void {
+    public render(renderBall: boolean): void {
         this.ctx.fillStyle = 'black'
         this.ctx.fillRect(0,0,this.canvas.width, this.canvas.height)
 
         this.drawCenterLine();
 
+        if (renderBall)
+            this.drawBall()
         this.drawPaddles()
-        this.drawBall()
         this.drawScore()
+        this.renderCountdown()
     }
 
     private drawCenterLine(): void {
@@ -214,6 +280,26 @@ class PongGame {
         this.ctx.fillText(this.score2.toString(), this.canvas.width * 3 / 4, 50)
     }
 
+    private winGame(): void {
+        if (this.score1 === 10 || this.score2 === 10) {
+            this.ctx.fillStyle = 'gold';
+            this.ctx.font = '80px monospace';
+            this.ctx.textAlign = 'center';
+
+            const winner = this.score1 === 10 ? 'Player 1 Wins!' : 'Player 2 Wins!';
+            this.ctx.fillText(winner, this.canvas.width / 2, this.canvas.height / 2);
+
+            this.resetScore();
+            this.stop();
+            this.startGame = true;
+        }
+    }
+
+    private resetScore(): void {
+        this.score1 = 0
+        this.score2 = 0
+    }
+
     public start(): void {
         if (!this.isRunning)
             this.isRunning = true;
@@ -222,6 +308,10 @@ class PongGame {
 
     public stop():void {
         this.isRunning = false;
+        if (this.animationId !== null) {
+            cancelAnimationFrame(this.animationId)
+            this.animationId = null;
+        }
     }
 
     public resize(width: number, height: number): void {
