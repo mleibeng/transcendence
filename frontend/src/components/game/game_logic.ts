@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-import { Ball, Paddle } from "./controls";
+import { Ball, Paddle } from "./game_objects";
 
 class PongGame {
     private canvas: HTMLCanvasElement;

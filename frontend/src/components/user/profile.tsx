@@ -1,11 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tournament_page.ts                                 :+:      :+:    :+:   */
+/*   profile.ts                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 17:12:03 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/15 17:12:03 by mleibeng         ###   ########.fr       */
+/*   Created: 2025/02/15 17:11:47 by mleibeng          #+#    #+#             */
+/*   Updated: 2025/02/20 07:09:41 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+import React from 'react'
+
+const Profile: React.FC = () => {
+  return (
+    <>
+
+    </>
+  );
+}
+
+export default Profile

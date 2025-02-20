@@ -4,6 +4,10 @@ import Navbar from './components/shared/navigation';
 import Home from './pages/shared/home';
 import LoginPage from './pages/auth/login';
 import RegisterPage from './pages/auth/register';
+import UserStatisticsPage from './pages/user/user_statistics_page';
+import ProfilePage from './pages/user/profile_page';
+import GameLobby from './pages/game/gameLobby';
+import TournamentLobby from './pages/tournament/TournamentLobby';
 
 // Define App as a function component
 const App: React.FC = () => {
@@ -14,9 +18,10 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/profile" element={<RegisterPage />} />
-          <Route path="/profile/statistics" element={<RegisterPage />} />
-          <Route path="/tournament" element={<RegisterPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/statistics" element={<UserStatisticsPage />} />
+          <Route path="/tournament" element={<TournamentLobby />} />
+          <Route path="/matchmaking" element={<GameLobby />}/>
         </Routes>
       </Router>
     );

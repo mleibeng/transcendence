@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import '@styles/style.css'
-import PongCanvas from '../game/game_page';
+import PongCanvas from '../../components/game/game_canvas';
 // will be modified for game canvas and rando matchmaking without log in
 
 // document.addEventListener('DOMContentLoaded', () => {

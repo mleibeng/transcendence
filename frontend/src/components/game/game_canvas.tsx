@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_page.tsx                                      :+:      :+:    :+:   */
+/*   game_canvas.tsx                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:12:00 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/20 02:14:34 by mleibeng         ###   ########.fr       */
+/*   Updated: 2025/02/20 06:58:52 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 import React, { useEffect, useRef } from "react";
-import PongGame from "../../components/game/canvas";
+import PongGame from "./game_logic";
 
 interface PongProps {
   width?: number;

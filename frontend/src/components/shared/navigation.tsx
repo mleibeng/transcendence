@@ -21,12 +21,6 @@ const Navbar: React.FC = () => {
           Pong Game 2025
         </Link>
         <div>
-          <Link to="/login" className="text-white px-4 py-2 rounded-md text-sm font-medium no-underline hover:bg-blue-700">
-            Login
-          </Link>
-          <Link to="/register" className="text-white px-4 py-2 rounded-md text-sm font-medium no-underline hover:bg-blue-700">
-            Register
-          </Link>
           <Link to="/profile" className="text-white px-4 py-2 rounded-md text-sm font-medium no-underline hover:bg-blue-700">
             Profile
           </Link>
@@ -36,10 +30,21 @@ const Navbar: React.FC = () => {
           <Link to="/tournament" className="text-white px-4 py-2 rounded-md text-sm font-medium no-underline hover:bg-blue-700">
             Tournament
           </Link>
+          <Link to="/matchmaking" className="text-white px-4 py-2 rounded-md text-sm font-medium no-underline hover:bg-blue-700">
+            Find Match
+          </Link>
+          <Link to="/login" className="text-white px-4 py-2 rounded-md text-sm font-medium no-underline hover:bg-blue-700">
+            Login
+          </Link>
+          <Link to="/register" className="text-white px-4 py-2 rounded-md text-sm font-medium no-underline hover:bg-blue-700">
+            Register
+          </Link>
         </div>
       </div>
     </nav>
   );
 };
+
+// once logged in I will remove login + register links later and replace log in with log out
 
 export default Navbar;
