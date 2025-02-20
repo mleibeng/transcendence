@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '@styles/style.css'
-import PongGame from '../game/canvas';
+import PongCanvas from '../../pages/game/game_page';
 // will be modified for game canvas and rando matchmaking without log in
 
 // document.addEventListener('DOMContentLoaded', () => {
@@ -8,9 +8,22 @@ import PongGame from '../game/canvas';
 // })
 
 const Home: React.FC = () => {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+        event.preventDefault();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <div className="home-container">
-      <canvas id="Ponggame" width="800" height="600"/>
+      <PongCanvas width={800} height={600}/>
     </div>
   );
 };

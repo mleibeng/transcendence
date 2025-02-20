@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   styles.css                                         :+:      :+:    :+:   */
+/*   style.css                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:12:20 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/15 17:12:22 by mleibeng         ###   ########.fr       */
+/*   Updated: 2025/02/20 02:14:56 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,20 @@
     font-size: 2.25rem;
     font-weight: bold;
     color: #2563eb;
+  }
+
+  .PongContainer {
+    width: width + 'px';
+    height: height + 'px';
+    max-width: '100%';
+    margin: '0auto';
+    position: 'relative';
+  }
+
+  .Ponggame {
+      display: 'block';
+      margin: '0 auto';
+      background: 'black';
+      max-width: '100%';
+      height: 'auto';
   }

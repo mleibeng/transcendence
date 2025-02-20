@@ -6,11 +6,10 @@
 /*   By: mleibeng <mleibeng@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:11:30 by mleibeng          #+#    #+#             */
-/*   Updated: 2025/02/16 23:25:26 by mleibeng         ###   ########.fr       */
+/*   Updated: 2025/02/20 02:16:38 by mleibeng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-import { timeStamp } from "console";
 import { Ball, Paddle } from "./controls";
 
 class PongGame {
@@ -37,7 +36,7 @@ class PongGame {
         const centerX = this.canvas.width / 2;
         const centerY = this.canvas.height / 2;
 
-        this.ball = new Ball(centerX, centerY, 8, 'white', 5, 5)
+        this.ball = new Ball(centerX, centerY, 8, 'white', 2, 2)
 
         const paddleHeight = 100;
         const paddleWidth = 10;
@@ -69,7 +68,10 @@ class PongGame {
             case 'w':
                 this.paddle1.stop();
                 break;
-
+            case 'ArrowDown':
+            case 'ArrowUp':
+                this.paddle2.stop();
+                break;
         }
     }
 
@@ -80,15 +82,42 @@ class PongGame {
                 break;
             case 's':
                 this.paddle1.moveDown(5);
+                break;
+            case 'ArrowDown':
+                this.paddle2.moveDown(5);
+                break;
+            case 'ArrowUp':
+                this.paddle2.moveUp(5);
+                break;
         }
     }
 
-    private touchStartFunction(ev: KeyboardEvent) {
+    private touchStartFunction(ev: TouchEvent) {
+        ev.preventDefault()
+        const touch = ev.touches[0]
+        const rect = this.canvas.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
 
+        if (x < this.canvas.width / 2) {
+            this.paddle1.setTargetY(y)
+        } else {
+            this.paddle2.setTargetY(y)
+        }
     }
 
-    private touchMoveFunction(ev: KeyboardEvent) {
+    private touchMoveFunction(ev: TouchEvent) {
+        ev.preventDefault()
+        const touch = ev.touches[0]
+        const rect = this.canvas.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
 
+        if (x < this.canvas.width / 2) {
+            this.paddle1.setTargetY(y)
+        } else {
+            this.paddle2.setTargetY(y)
+        }
     }
 
 
@@ -110,8 +139,11 @@ class PongGame {
         if (this.ball.y <= this.ball.radius || this.ball.y >= this.canvas.height - this.ball.radius)
             this.ball.reverseYDirection();
 
-        if (this.isColliding(this.ball, this.paddle1) || this.isColliding(this.ball, this.paddle2))
+        if (this.isColliding(this.ball, this.paddle1) || this.isColliding(this.ball, this.paddle2)) {
             this.ball.reverseXDirection();
+            Math.abs(this.ball.speedX += 1)
+            Math.abs(this.ball.speedY += 1)
+        }
 
         if (this.ball.x < 0) {
             this.score2 += 1;
@@ -125,6 +157,9 @@ class PongGame {
     private resetBall(): void {
         this.ball.x = this.canvas.width / 2;
         this.ball.y = this.canvas.height / 2;
+        this.ball.reverseXDirection();
+        this.ball.speedX = 2
+        this.ball.speedY = 2
     }
 
     private render(): void {
@@ -163,6 +198,13 @@ class PongGame {
         this.ball.draw(this.ctx)
     }
 
+    private isColliding(ball:Ball , paddle:Paddle): boolean {
+        return ball.x - ball.radius <= paddle.x + paddle.width &&
+        ball.x + ball.radius >= paddle.x &&
+        ball.y + ball.radius >= paddle.y &&
+        ball.y - ball.radius <= paddle.y + paddle.height;
+    }
+
     private drawScore(): void {
         this.ctx.fillStyle = 'white';
         this.ctx.font = '30px monospace'
@@ -170,6 +212,36 @@ class PongGame {
 
         this.ctx.fillText(this.score1.toString(), this.canvas.width / 4, 50)
         this.ctx.fillText(this.score2.toString(), this.canvas.width * 3 / 4, 50)
+    }
+
+    public start(): void {
+        if (!this.isRunning)
+            this.isRunning = true;
+            this.gameLoop()
+    }
+
+    public stop():void {
+        this.isRunning = false;
+    }
+
+    public resize(width: number, height: number): void {
+        this.canvas.width = width;
+        this.canvas.height = height;
+
+        const centerY = height / 2;
+        this.ball.x = width / 2;
+        this.ball.y = centerY;
+
+        this.paddle1.y = centerY - this.paddle1.height / 2;
+        this.paddle2.x = width - this.paddle2.width - 10
+        this.paddle2.y = centerY - this.paddle2.height / 2;
+    }
+
+    public clean(): void {
+        window.removeEventListener('keydown', this.keyDownFunction)
+        window.removeEventListener('keyup', this.keyUpFunction)
+        this.canvas.removeEventListener('touchstart', this.touchStartFunction)
+        this.canvas.removeEventListener('touchmove',  this.touchMoveFunction)
     }
 
 }
