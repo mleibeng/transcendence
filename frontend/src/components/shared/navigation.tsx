@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="bg-blue-600 p-4">
+    <nav className="bg-gradient-to-r from-blue-700 to-purple-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="text-white text-xl font-bold no-underline">
           Pong Game 2025
