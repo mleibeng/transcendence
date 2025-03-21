@@ -68,7 +68,6 @@ graph TB
     Models --> DB
     FB --> Middleware
     FB --> WebSocketService
-    Services --> AuthService
 
     %% Cross-Container Communications
     VF <--> REST
